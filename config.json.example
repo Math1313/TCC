@@ -1,0 +1,9 @@
+{
+    "api_key": "api_key",
+    "token": "token",
+    "source_board_id": "source_board_id",
+    "target_board_ids": [
+        "target_board_id_1"
+    ],
+    "label_name": "label to copy"
+}
