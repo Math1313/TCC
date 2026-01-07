@@ -6,13 +6,22 @@ Les variables sensibles (API key, token) sont chargées depuis .env
 
 import json
 import os
+import sys
 from typing import Dict, List, Any
 from dotenv import load_dotenv
 
-# Charger les variables d'environnement depuis .env
-load_dotenv()
+# Déterminer le répertoire de base
+if getattr(sys, 'frozen', False):
+    # Si l'application est packagée avec PyInstaller
+    BASE_DIR = os.path.dirname(sys.executable)
+else:
+    # Si on est en mode développement
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-CONFIG_FILE = "config.json"
+# Charger les variables d'environnement depuis .env
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+CONFIG_FILE = os.path.join(BASE_DIR, "config.json")
 
 DEFAULT_CONFIG = {
     "api_key": os.getenv("TRELLO_API_KEY", ""),
