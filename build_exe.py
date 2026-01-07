@@ -36,7 +36,7 @@ PyInstaller.__main__.run([
     '--collect-all=flask',
     '--collect-all=flask_cors',
     '--collect-all=flaskwebgui',
-    '--icon=NONE',                     # Ajoutez un chemin d'icône si vous en avez une
+    '--icon=logoTCC.ico',              # Icône de l'application
     '--clean',                         # Nettoyer les fichiers temporaires
 ])
 
