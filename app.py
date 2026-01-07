@@ -189,6 +189,8 @@ if __name__ == '__main__':
     
     # Démarrer Flask dans un thread séparé
     import threading
+    import psutil
+    
     def run_flask():
         app.run(host='127.0.0.1', port=5000, threaded=True, use_reloader=False)
     
@@ -209,11 +211,12 @@ if __name__ == '__main__':
             r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"
         ]
         
+        browser_process = None
         opened = False
         for edge_path in edge_paths:
             if os.path.exists(edge_path):
                 try:
-                    subprocess.Popen([
+                    browser_process = subprocess.Popen([
                         edge_path,
                         '--app=http://127.0.0.1:5000',
                         '--window-size=1000,600'
@@ -227,10 +230,21 @@ if __name__ == '__main__':
             # Fallback sur le navigateur par défaut
             webbrowser.open('http://127.0.0.1:5000')
         
-        # Garder le programme en vie
-        try:
-            flask_thread.join()
-        except KeyboardInterrupt:
-            print("\nArrêt de l'application...")
+        # Surveiller le processus du navigateur sans bloquer immédiatement
+        if browser_process:
+            print("Surveillance du navigateur...")
+            try:
+                # Vérifier périodiquement si le processus est toujours actif
+                while browser_process.poll() is None:
+                    time.sleep(1)
+                print("Navigateur fermé, arrêt de l'application...")
+            except KeyboardInterrupt:
+                print("\nArrêt de l'application...")
+        else:
+            # Si on ne peut pas surveiller le processus, garder l'app en vie
+            try:
+                flask_thread.join()
+            except KeyboardInterrupt:
+                print("\nArrêt de l'application...")
     else:
         print("Erreur: Impossible de démarrer le serveur Flask")
