@@ -1,0 +1,131 @@
+/* Styles personnalisés additionnels pour Pico.css */
+
+/* Layout compact */
+main.container {
+    max-width: 900px;
+    padding: 1rem;
+}
+
+/* Header avec gradient - plus compact */
+header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+header h1 {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.25rem;
+    font-size: 2rem;
+}
+
+header hgroup p {
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+/* Articles plus compacts avec coins arrondis */
+article {
+    padding: 1.25rem;
+    border-radius: 16px;
+    margin-bottom: 1rem;
+}
+
+/* Inputs et labels plus compacts */
+article label {
+    margin-bottom: 0.35rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+article input,
+article textarea {
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    padding: 0.6rem 0.8rem;
+}
+
+article textarea {
+    min-height: 80px;
+}
+
+/* Boutons plus compacts et arrondis */
+article button {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 12px;
+}
+
+article .grid {
+    margin-bottom: 0.5rem;
+}
+
+/* Barre de progression arrondie */
+progress {
+    border-radius: 10px;
+    height: 6px;
+}
+
+/* Titres plus compacts */
+article h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Console de logs - plus compacte et arrondie */
+.console {
+    max-height: 300px;
+    overflow-y: auto;
+    background: var(--code-background-color);
+    padding: 0.75rem;
+    border-radius: 12px;
+    font-size: 0.825rem;
+    line-height: 1.5;
+}
+
+.console code {
+    padding: 0;
+    background: transparent;
+}
+
+.console code div {
+    margin-bottom: 0.1rem;
+}
+
+/* Coloration des logs */
+.log-error {
+    color: #ef4444;
+}
+
+.log-success {
+    color: #10b981;
+}
+
+.log-warning {
+    color: #f59e0b;
+}
+
+/* Animation de la barre de progression */
+progress:indeterminate {
+    animation: progress-animation 1.5s ease-in-out infinite;
+}
+
+@keyframes progress-animation {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.75rem;
+    }
+    
+    main.container {
+        padding: 0.75rem;
+    }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trello Card Copier 📋</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <main class="container">
+        <!-- Header -->
+        <header>
+            <hgroup>
+                <h1>🚀 Trello Card Copier</h1>
+                <p>Copiez vos cartes Trello rapidement et facilement</p>
+            </hgroup>
+        </header>
+
+        <!-- Main Content -->
+        <!-- Form Section -->
+        <article>
+            <label for="sourceBoard">📍 Source Board ID</label>
+            <input type="text" id="sourceBoard" placeholder="Ex: KRoXlMPp">
+
+            <label for="targetBoards">🎯 Target Board IDs (un par ligne)</label>
+            <textarea id="targetBoards" rows="4" placeholder="Entrez un Board ID par ligne"></textarea>
+
+            <label for="labelName">🏷️ Label Name</label>
+            <input type="text" id="labelName" placeholder="Ex: Laboratoire 2 - Dockerisation">
+
+            <div class="grid">
+                <button id="copyBtn">🚀 Copier les Cartes</button>
+                <button id="clearBtn" class="secondary">🗑️ Effacer la Console</button>
+            </div>
+
+            <progress id="progressBar" style="display: none;"></progress>
+        </article>
+
+        <!-- Console Section -->
+        <article>
+            <h2>📊 Console</h2>
+            <pre id="console" class="console"><code>✨ Bienvenue dans Trello Card Copier!
+📝 Remplissez les champs ci-dessus et cliquez sur 'Copier les Cartes'
+──────────────────────────────────────────────────────────────────</code></pre>
+        </article>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

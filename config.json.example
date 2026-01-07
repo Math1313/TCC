@@ -1,9 +1,9 @@
 {
     "api_key": "api_key",
     "token": "token",
-    "source_board_id": "source_board_id",
+    "source_board_id": "KRoXlMPp",
     "target_board_ids": [
-        "target_board_id_1"
+        "LvXvXO39"
     ],
-    "label_name": "label to copy"
+    "label_name": "Laboratoire 2 - Dockerisation"
 }

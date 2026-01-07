@@ -178,17 +178,17 @@ class TrelloClient:
         source_list_name = self.get_list_name(card['idList'])
         
         if not source_list_name:
-            log(f"[X] Impossible de recuperer la liste source pour '{card['name']}'")
+            log(f"✗ Impossible de récupérer la liste source pour '{card['name']}'")
             return False
         
         # Trouver la liste de destination avec le même nom
         target_list_id = target_lists_map.get(source_list_name)
         
         if not target_list_id:
-            log(f"[X] Liste '{source_list_name}' introuvable dans le tableau de destination pour '{card['name']}'")
+            log(f"✗ Liste '{source_list_name}' introuvable dans le tableau de destination pour '{card['name']}'")
             return False
         
-        log(f"[>>] Copie de la carte: {card['name']} -> Liste: {source_list_name}")
+        log(f"📋 Copie de la carte: {card['name']} → Liste: {source_list_name}")
         
         # Préparer les labels
         label_names_and_colors = [(label.get('name', ''), label.get('color', None)) for label in card.get('labels', [])]
@@ -213,13 +213,13 @@ class TrelloClient:
                         items=checklist.get('checkItems', [])
                     )
                 
-                log(f"[OK] Carte copiee avec succes: {new_card['url']}")
+                log(f"✓ Carte copiée avec succès: {new_card['url']}")
                 return True
             else:
-                log(f"[X] Echec de la copie de la carte")
+                log(f"✗ Échec de la copie de la carte")
                 return False
         except Exception as e:
-            log(f"[ERREUR] Erreur: {str(e)}")
+            log(f"✗ Erreur: {str(e)}")
             return False
     
     def copy_cards_to_multiple_boards(self, source_board_id: str, target_board_ids: List[str], 
@@ -234,15 +234,15 @@ class TrelloClient:
             if log_callback:
                 log_callback(message)
         
-        log(f"[...] Recuperation des cartes avec l'etiquette '{label_name}'...")
+        log(f"🔍 Récupération des cartes avec l'étiquette '{label_name}'...")
         
         try:
             # Récupérer les cartes à copier
             cards_to_copy = self.get_cards_with_label(source_board_id, label_name)
-            log(f"[INFO] Nombre de cartes trouvees: {len(cards_to_copy)}")
+            log(f"📊 Nombre de cartes trouvées: {len(cards_to_copy)}")
             
             if len(cards_to_copy) == 0:
-                log("[!] Aucune carte a copier.")
+                log("⚠️ Aucune carte à copier.")
                 return {"total": 0, "success": 0, "failed": 0}
             
             total_copied = 0
@@ -251,13 +251,13 @@ class TrelloClient:
             # Pour chaque tableau cible
             for target_board_id in target_board_ids:
                 log(f"\n{'='*60}")
-                log(f"[>>>] Copie vers le tableau: {target_board_id}")
+                log(f"🎯 Copie vers le tableau: {target_board_id}")
                 log(f"{'='*60}")
                 
                 # Récupérer les listes du tableau de destination
                 target_lists = self.get_board_lists(target_board_id)
                 target_lists_map = {lst['name']: lst['id'] for lst in target_lists}
-                log(f"[INFO] Listes trouvees: {', '.join(target_lists_map.keys())}")
+                log(f"📝 Listes trouvées: {', '.join(target_lists_map.keys())}")
                 
                 copied_count = 0
                 failed_count = 0
@@ -269,12 +269,12 @@ class TrelloClient:
                     else:
                         failed_count += 1
                 
-                log(f"\n[STATS] Resume pour {target_board_id}: {copied_count} copiees, {failed_count} echouees")
+                log(f"\n📈 Résumé pour {target_board_id}: {copied_count} copiées, {failed_count} échouées")
                 total_copied += copied_count
                 total_failed += failed_count
             
             log(f"\n{'='*60}")
-            log(f"[FINAL] RESUME GLOBAL: {total_copied} cartes copiees, {total_failed} echouees sur {len(target_board_ids)} tableau(x)")
+            log(f"✅ RÉSUMÉ GLOBAL: {total_copied} cartes copiées, {total_failed} échouées sur {len(target_board_ids)} tableau(x)")
             log(f"{'='*60}")
             
             return {
@@ -284,5 +284,5 @@ class TrelloClient:
             }
             
         except Exception as e:
-            log(f"[ERREUR] Erreur critique: {str(e)}")
+            log(f"❌ Erreur critique: {str(e)}")
             return {"total": 0, "success": 0, "failed": 0, "error": str(e)}

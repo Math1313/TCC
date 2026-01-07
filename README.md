@@ -1,64 +1,80 @@
-# 🚀 Trello Card Copier
+# 📋 Trello Card Copier - Application Web
 
-Application simple pour copier des cartes Trello d'un tableau vers plusieurs tableaux en filtrant par label.
+Application web moderne pour copier automatiquement des cartes Trello d'un tableau source vers plusieurs tableaux cibles, basée sur un label spécifique.
 
-## 📦 Installation
+## 🚀 Démarrage Rapide
 
-```bash
-pip install customtkinter requests python-dotenv
-```
-
-## 🚀 Lancement
+### 1. Installation
 
 ```bash
-python main.py
+# Installer les dépendances
+pip install -r requirements.txt
 ```
 
-## ⚙️ Configuration
+### 2. Configuration
 
-Créez un fichier `.env` à la racine avec vos clés Trello :
+Créez un fichier `.env` avec vos identifiants Trello :
 
 ```env
-TRELLO_API_KEY=votre_clé_api
+TRELLO_API_KEY=votre_api_key
 TRELLO_TOKEN=votre_token
 ```
 
-**Obtenir vos clés :**
-1. API Key : https://trello.com/app-key
-2. Cliquez sur "Token" pour générer un token
+> 💡 **Obtenir vos identifiants :**
+> - API Key : https://trello.com/app-key
+> - Token : Cliquez sur "Token" sur la page de l'API Key
 
-## 📋 Utilisation
+### 3. Lancer l'application
 
-1. **Source Board ID** : ID du tableau source (dans l'URL : `trello.com/b/ABC123`)
-2. **Target Board IDs** : Un ID par ligne
+```bash
+python app.py
+```
+
+Ouvrez votre navigateur sur `http://localhost:5000`
+
+## 📖 Utilisation
+
+1. **Source Board ID** : ID du tableau Trello source (ex: `KRoXlMPp`)
+2. **Target Board IDs** : IDs des tableaux de destination (un par ligne)
 3. **Label Name** : Nom exact du label à copier
-4. Cliquer sur **Copier les Cartes**
+4. Cliquez sur **🚀 Copier les Cartes**
 
-## 🎯 Fonctionnalités
+Les cartes avec le label spécifié seront copiées avec :
+- ✅ Nom et description
+- ✅ Labels (créés automatiquement si nécessaires)
+- ✅ Checklists et items
+- ✅ Position dans la liste correspondante
 
-- Interface graphique moderne (thème sombre/clair)
-- Copie vers plusieurs tableaux simultanément
-- Conservation des descriptions, checklists et labels
-- Sauvegarde automatique de la configuration
-- Logs en temps réel
+## 🎨 Fonctionnalités
+
+- **Interface moderne** : Design responsive avec thème clair/sombre
+- **Logs en temps réel** : Console interactive pour suivre la copie
+- **Sauvegarde automatique** : Vos paramètres sont conservés
+- **Multi-tableaux** : Copie vers plusieurs tableaux en une fois
 
 ## 📁 Structure
 
 ```
-TCC/
-├── src/              # Code source
-│   ├── config.py     # Gestion configuration
-│   ├── gui.py        # Interface graphique
-│   ├── main.py       # Point d'entrée
-│   └── trello_api.py # Client API Trello
-├── main.py           # Lanceur
-└── config.json       # Config sauvegardée (auto-généré)
+.
+├── app.py              # Backend Flask
+├── trello_api.py       # Client API Trello
+├── config.py           # Gestion configuration
+├── requirements.txt    # Dépendances Python
+├── static/
+│   ├── style.css      # Styles CSS
+│   └── app.js         # JavaScript
+└── templates/
+    └── index.html     # Interface web
 ```
 
-## 🔧 Développement
+## 🛠️ Technologies
 
-Le code est organisé dans le dossier `src/` :
-- `config.py` : Charge/sauvegarde les paramètres
-- `trello_api.py` : Toutes les requêtes API Trello
-- `gui.py` : Interface CustomTkinter
-- `main.py` : Initialise et lance l'app
+- **Backend** : Flask (Python)
+- **Frontend** : HTML5, CSS3, JavaScript (Vanilla)
+- **API** : Trello REST API
+
+## 📝 Notes
+
+- Les identifiants API sont chargés depuis le fichier `.env`
+- La configuration utilisateur est sauvegardée dans `config.json`
+- Les cartes sont copiées dans les listes du même nom
