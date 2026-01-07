@@ -67,6 +67,11 @@ article button {
     border-radius: 12px;
 }
 
+/* Bouton copier pleine largeur */
+#copyBtn {
+    width: 100%;
+}
+
 article .grid {
     margin-bottom: 0.5rem;
 }
@@ -81,6 +86,23 @@ progress {
 article h2 {
     font-size: 1.15rem;
     margin-bottom: 0.75rem;
+}
+
+/* Header de la console avec bouton */
+.console-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.console-header h2 {
+    margin-bottom: 0;
+}
+
+.console-header button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.825rem;
 }
 
 /* Console de logs - plus compacte et arrondie */
