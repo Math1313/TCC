@@ -62,11 +62,12 @@ def copy_cards():
     
     def generate_logs():
         """Générateur pour le streaming des logs"""
-        logs = []
+        import sys
         
         def log_callback(message):
-            logs.append(message)
-            yield f"data: {json.dumps({'log': message})}\n\n"
+            # Cette fonction est appelée de façon synchrone, on ne peut pas yield ici
+            # On doit utiliser une autre approche
+            pass
         
         try:
             # Initialiser le client Trello
@@ -77,16 +78,57 @@ def copy_cards():
             
             trello_client = TrelloClient(api_key, token)
             
-            # Effectuer la copie
-            result = trello_client.copy_cards_to_multiple_boards(
-                source_board_id=source_board_id,
-                target_board_ids=target_board_ids,
-                label_name=label_name,
-                log_callback=log_callback
-            )
+            # Créer une liste partagée pour les logs
+            import queue
+            import threading
+            
+            log_queue = queue.Queue()
+            
+            def queued_log_callback(message):
+                log_queue.put(message)
+            
+            # Lancer la copie dans un thread séparé
+            result_container = [None]
+            exception_container = [None]
+            
+            def run_copy():
+                try:
+                    result = trello_client.copy_cards_to_multiple_boards(
+                        source_board_id=source_board_id,
+                        target_board_ids=target_board_ids,
+                        label_name=label_name,
+                        log_callback=queued_log_callback
+                    )
+                    result_container[0] = result
+                except Exception as e:
+                    exception_container[0] = e
+                finally:
+                    log_queue.put(None)  # Signal de fin
+            
+            thread = threading.Thread(target=run_copy)
+            thread.start()
+            
+            # Envoyer les logs au fur et à mesure qu'ils arrivent
+            while True:
+                try:
+                    message = log_queue.get(timeout=0.1)
+                    if message is None:  # Signal de fin
+                        break
+                    yield f"data: {json.dumps({'log': message})}\n\n"
+                except queue.Empty:
+                    continue
+            
+            thread.join()
+            
+            # Vérifier s'il y a eu une exception
+            if exception_container[0]:
+                yield f"data: {json.dumps({'error': str(exception_container[0])})}\n\n"
+                return
+            
+            result = result_container[0]
             
             # Sauvegarder la config en cas de succès
-            if result.get("success", 0) > 0:
+            if result and result.get("success", 0) > 0:
                 config_manager.set_source_board_id(source_board_id)
                 config_manager.set_target_board_ids(target_board_ids)
                 config_manager.set_label_name(label_name)

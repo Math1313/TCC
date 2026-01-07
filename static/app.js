@@ -71,10 +71,7 @@ copyBtn.addEventListener('click', async () => {
     logToConsole('='.repeat(70));
     
     try {
-        // Utiliser EventSource pour le streaming des logs
-        const eventSource = new EventSource('/api/copy');
-        
-        // Alternative: utiliser fetch avec streaming
+        // Utiliser fetch avec streaming
         const response = await fetch('/api/copy', {
             method: 'POST',
             headers: {
@@ -93,35 +90,45 @@ copyBtn.addEventListener('click', async () => {
         
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
+        let buffer = '';
         
         while (true) {
             const { value, done } = await reader.read();
             if (done) break;
             
-            const chunk = decoder.decode(value);
-            const lines = chunk.split('\n\n');
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            
+            // Garder la dernière ligne incomplète dans le buffer
+            buffer = lines.pop();
             
             for (const line of lines) {
+                if (line.trim() === '') continue;
+                
                 if (line.startsWith('data: ')) {
-                    const data = JSON.parse(line.substring(6));
-                    
-                    if (data.log) {
-                        logToConsole(data.log);
-                    }
-                    
-                    if (data.result) {
-                        const result = data.result;
-                        if (result.error) {
-                            logToConsole(`\n❌ Erreur: ${result.error}`, 'error');
-                        } else if (result.failed === 0) {
-                            logToConsole(`\n✅ ${result.success} carte(s) copiée(s) avec succès!`, 'success');
-                        } else {
-                            logToConsole(`\n⚠️ ${result.success} carte(s) copiée(s), ${result.failed} échouée(s)`, 'warning');
+                    try {
+                        const data = JSON.parse(line.substring(6));
+                        
+                        if (data.log) {
+                            logToConsole(data.log);
                         }
-                    }
-                    
-                    if (data.error) {
-                        logToConsole(`❌ Erreur: ${data.error}`, 'error');
+                        
+                        if (data.result) {
+                            const result = data.result;
+                            if (result.error) {
+                                logToConsole(`\n❌ Erreur: ${result.error}`, 'error');
+                            } else if (result.failed === 0) {
+                                logToConsole(`\n✅ ${result.success} carte(s) copiée(s) avec succès!`, 'success');
+                            } else {
+                                logToConsole(`\n⚠️ ${result.success} carte(s) copiée(s), ${result.failed} échouée(s)`, 'warning');
+                            }
+                        }
+                        
+                        if (data.error) {
+                            logToConsole(`❌ Erreur: ${data.error}`, 'error');
+                        }
+                    } catch (e) {
+                        console.error('Erreur parsing JSON:', e, line);
                     }
                 }
             }
