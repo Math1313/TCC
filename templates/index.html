@@ -18,32 +18,34 @@
         </header>
 
         <!-- Main Content -->
-        <!-- Form Section -->
-        <article>
-            <label for="sourceBoard">📍 Source Board ID</label>
-            <input type="text" id="sourceBoard" placeholder="Ex: KRoXlMPp">
+        <div class="content-grid">
+            <!-- Form Section -->
+            <article>
+                <label for="sourceBoard">📍 Source Board ID</label>
+                <input type="text" id="sourceBoard" placeholder="Ex: KRoXlMPp">
 
-            <label for="targetBoards">🎯 Target Board IDs (un par ligne)</label>
-            <textarea id="targetBoards" rows="4" placeholder="Entrez un Board ID par ligne"></textarea>
+                <label for="targetBoards">🎯 Target Board IDs (un par ligne)</label>
+                <textarea id="targetBoards" rows="4" placeholder="Entrez un Board ID par ligne"></textarea>
 
-            <label for="labelName">🏷️ Label Name</label>
-            <input type="text" id="labelName" placeholder="Ex: Laboratoire 2 - Dockerisation">
+                <label for="labelName">🏷️ Label Name</label>
+                <input type="text" id="labelName" placeholder="Ex: Laboratoire 2 - Dockerisation">
 
-            <div class="grid">
-                <button id="copyBtn">🚀 Copier les Cartes</button>
-                <button id="clearBtn" class="secondary">🗑️ Effacer la Console</button>
-            </div>
+                <div class="grid">
+                    <button id="copyBtn">🚀 Copier les Cartes</button>
+                    <button id="clearBtn" class="secondary">🗑️ Effacer la Console</button>
+                </div>
 
-            <progress id="progressBar" style="display: none;"></progress>
-        </article>
+                <progress id="progressBar" style="display: none;"></progress>
+            </article>
 
-        <!-- Console Section -->
-        <article>
-            <h2>📊 Console</h2>
-            <pre id="console" class="console"><code>✨ Bienvenue dans Trello Card Copier!
+            <!-- Console Section -->
+            <article>
+                <h2>📊 Console</h2>
+                <pre id="console" class="console"><code>✨ Bienvenue dans Trello Card Copier!
 📝 Remplissez les champs ci-dessus et cliquez sur 'Copier les Cartes'
 ──────────────────────────────────────────────────────────────────</code></pre>
-        </article>
+            </article>
+        </div>
     </main>
 
     <script src="/static/app.js"></script>

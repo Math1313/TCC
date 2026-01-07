@@ -42,7 +42,7 @@ copyBtn.addEventListener('click', async () => {
     
     // Validation
     if (!sourceBoardId) {
-        alert('⚠️ Le Source Board ID est requis');
+        logToConsole('⚠️ Le Source Board ID est requis', 'warning');
         return;
     }
     
@@ -52,19 +52,12 @@ copyBtn.addEventListener('click', async () => {
         .filter(line => line);
     
     if (targetBoardIds.length === 0) {
-        alert('⚠️ Au moins un Target Board ID est requis');
+        logToConsole('⚠️ Au moins un Target Board ID est requis', 'warning');
         return;
     }
     
     if (!labelName) {
-        alert('⚠️ Le nom du Label est requis');
-        return;
-    }
-    
-    // Confirmation
-    const confirmMessage = `Voulez-vous copier les cartes avec le label '${labelName}' depuis le tableau ${sourceBoardId} vers ${targetBoardIds.length} tableau(x) ?`;
-    if (!confirm(confirmMessage)) {
-        logToConsole('❌ Opération annulée par l\'utilisateur');
+        logToConsole('⚠️ Le nom du Label est requis', 'warning');
         return;
     }
     
@@ -119,17 +112,16 @@ copyBtn.addEventListener('click', async () => {
                     if (data.result) {
                         const result = data.result;
                         if (result.error) {
-                            alert(`❌ Erreur: ${result.error}`);
+                            logToConsole(`\n❌ Erreur: ${result.error}`, 'error');
                         } else if (result.failed === 0) {
-                            alert(`✅ ${result.success} carte(s) copiée(s) avec succès!`);
+                            logToConsole(`\n✅ ${result.success} carte(s) copiée(s) avec succès!`, 'success');
                         } else {
-                            alert(`⚠️ ${result.success} carte(s) copiée(s), ${result.failed} échouée(s)`);
+                            logToConsole(`\n⚠️ ${result.success} carte(s) copiée(s), ${result.failed} échouée(s)`, 'warning');
                         }
                     }
                     
                     if (data.error) {
                         logToConsole(`❌ Erreur: ${data.error}`, 'error');
-                        alert(`❌ Erreur: ${data.error}`);
                     }
                 }
             }
@@ -137,7 +129,6 @@ copyBtn.addEventListener('click', async () => {
         
     } catch (error) {
         logToConsole(`❌ Erreur critique: ${error.message}`, 'error');
-        alert(`❌ Erreur: ${error.message}`);
     } finally {
         // Réactiver les boutons et cacher la barre de progression
         copyBtn.disabled = false;

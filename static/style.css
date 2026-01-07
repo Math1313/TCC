@@ -2,8 +2,15 @@
 
 /* Layout compact */
 main.container {
-    max-width: 900px;
+    max-width: 1400px;
     padding: 1rem;
+}
+
+/* Layout en deux colonnes pour desktop */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
 
 /* Header avec gradient - plus compact */
@@ -19,11 +26,11 @@ header h1 {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 0.25rem;
-    font-size: 2rem;
+    font-size: 1.75rem;
 }
 
 header hgroup p {
-    font-size: 0.95rem;
+    font-size: 0.875rem;
     margin-bottom: 0;
 }
 
@@ -37,7 +44,7 @@ article {
 /* Inputs et labels plus compacts */
 article label {
     margin-bottom: 0.35rem;
-    font-size: 0.95rem;
+    font-size: 0.875rem;
     font-weight: 600;
 }
 
@@ -45,7 +52,7 @@ article input,
 article textarea {
     margin-bottom: 1rem;
     border-radius: 12px;
-    font-size: 0.95rem;
+    font-size: 0.75rem;
     padding: 0.6rem 0.8rem;
 }
 
@@ -56,7 +63,7 @@ article textarea {
 /* Boutons plus compacts et arrondis */
 article button {
     padding: 0.7rem 1.5rem;
-    font-size: 1rem;
+    font-size: 0.925rem;
     border-radius: 12px;
 }
 
@@ -72,18 +79,18 @@ progress {
 
 /* Titres plus compacts */
 article h2 {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     margin-bottom: 0.75rem;
 }
 
 /* Console de logs - plus compacte et arrondie */
 .console {
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: auto;
     background: var(--code-background-color);
     padding: 0.75rem;
     border-radius: 12px;
-    font-size: 0.825rem;
+    font-size: 0.7rem;
     line-height: 1.5;
 }
 
@@ -122,10 +129,15 @@ progress:indeterminate {
 /* Responsive */
 @media (max-width: 768px) {
     header h1 {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
     }
     
     main.container {
         padding: 0.75rem;
+    }
+    
+    /* Passer en une seule colonne sur mobile */
+    .content-grid {
+        grid-template-columns: 1fr;
     }
 }
